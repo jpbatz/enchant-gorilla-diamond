@@ -1,0 +1,4 @@
+1) gorilla class - should not travel off canvas
+2) sound: gorilla intersects diamond
+3) sound: gorilla intersects bomb
+4) option to restart
