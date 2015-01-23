@@ -77,13 +77,18 @@ Gem = Class.create(Sprite, {
 
         // Collision Check
         if(this.intersect(player)) {
-            // game.assets['sounds/ting.wav'].play();
+            game.rootScene.removeChild(this);
+            game.assets['sounds/bling.wav'].play();
             gem = new Gem();
             game.rootScene.addChild(gem);
             game.score += 100;
-            game.rootScene.removeChild(this);
         }
+   },
+
+   onexitframe: function() {
+    console.log("Exiting");
    }
+
 });
 
 // 08 Bomb Class
@@ -106,7 +111,7 @@ Bomb = Class.create(Sprite, {
         }
         
         if(this.intersect(player)) {
-            // game.assets['sounds/balloon.wav'].play();
+            game.assets['sounds/balloon.wav'].play();
             player.health--;
             game.rootScene.removeChild(this);
             console.log("ouch!");
@@ -122,14 +127,25 @@ Bomb = Class.create(Sprite, {
     }
 });
 
+// var initialized = false;
+
 // Begin game code
 window.onload = function(){
-    game = new Game(stgWidth, stgHeight);
+
+    game = new Core(stgWidth, stgHeight);
     //game.fps = 15;
+
     // Preload images
-    game.preload('icon0.png', 'diamond-sheet.png', 'bg.png', 'sounds/pingas.wav', 'sounds/ting.wav', 'sounds/balloon.wav', 'sounds/crickets.wav');
+    game.preload('icon0.png', 'diamond-sheet.png', 'bg.png', 'sounds/pingas.wav', 'sounds/bling.wav', 'sounds/balloon.wav', 'sounds/crickets.wav');
     
+
     game.onload = function(){
+        // if(!initialized) {
+        //     initialized = true;
+        // } else {
+        //     return;
+        // }
+
         // 01 Add Background
         bg = new Sprite(stgWidth, stgHeight);
         bg.image = game.assets['bg.png'];
@@ -182,8 +198,10 @@ window.onload = function(){
 
             // 08 Game Over
             if(player.health <= 0) {
-                game.assets['sounds/crickets.wav'].play();
                 game.end();
+                // game.assets['sounds/ting.wav'].play();
+                game.assets['sounds/crickets.wav'].play();
+
             }
             
             // 08 Make Bomb Generator
